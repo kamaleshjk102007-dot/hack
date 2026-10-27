@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDITH AI — Autonomous Threat Defense</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="cyber-popup-root">
+    
+    <!-- LEFT MINI NAVIGATION RAIL (Command Center Controls) -->
+    <aside class="sidebar-rail">
+      <div class="rail-logo" title="EDITH AI — Detect. Respond. Recover.">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4" stroke="#00e5ff"/>
+        </svg>
+      </div>
+
+      <nav class="rail-nav">
+        <!-- Tab 1: Overview -->
+        <button class="rail-btn active" data-tab="tab-overview" title="Command Center Overview">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="2"/>
+          </svg>
+        </button>
+
+        <!-- Tab 2: Timeline -->
+        <button class="rail-btn" data-tab="tab-timeline" title="Incident Timeline">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="6" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/>
+            <path d="M6 9v6M9 6h7a3 3 0 0 1 3 3v2"/>
+            <circle cx="19" cy="14" r="3"/>
+          </svg>
+        </button>
+
+        <!-- Tab 3: Analytics -->
+        <button class="rail-btn" data-tab="tab-analytics" title="Threat Telemetry Analytics">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </button>
+
+        <!-- Tab 4: Controls & Self-Healing -->
+        <button class="rail-btn" data-tab="tab-controls" title="Self-Healing & Defense Controls">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </button>
+      </nav>
+
+      <div class="rail-bottom">
+        <button class="rail-btn-sub" id="btn-rail-help" title="Zero-Trust Architecture Info">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </button>
+        <button class="rail-btn-sub" id="btn-quick-clear" title="Clear Event Logs">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="main-panel">
+
+      <!-- TOP HEADER (EDITH AI Branding & Global Status) -->
+      <header class="panel-header">
+        <div class="header-brand-group">
+          <h1 class="brand-text">EDITH<span class="cyan-dot">AI</span></h1>
+          <span class="brand-tagline">Detect. Respond. Recover.</span>
+        </div>
+
+        <!-- Search / Domain Inspector Input -->
+        <div class="search-pill-box">
+          <svg class="search-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="target-search-input" class="search-pill-input" placeholder="Inspect domain or URL..." spellcheck="false" autocomplete="off">
+        </div>
+
+        <!-- Right Header Items: Date pill, Bell notification, Protection toggle -->
+        <div class="header-meta-group">
+          <span class="date-pill" id="header-date">Today</span>
+          <div class="bell-cyan-circle" id="bell-notify-btn" title="View Recent Incidents">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#080d18" stroke-width="2.2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <label class="cyan-toggle-switch" title="Toggle Autonomous EDITH AI Protection">
+            <input type="checkbox" id="main-protection-toggle" checked>
+            <span class="cyan-slider round"></span>
+          </label>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW PANEL (Default Active) -->
+      <section class="tab-content-panel active" id="tab-overview">
+        
+        <!-- 4 COMPACT STATISTIC CARDS (Derived from Real Storage Records) -->
+        <div class="stat-cards-grid">
+          
+          <!-- Card 1: Electric Cyan Highlight Card -->
+          <div class="stat-card card-cyan-highlight">
+            <div class="stat-card-top">
+              <div class="stat-label-wrap">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Total Alerts</span>
+              </div>
+              <span class="stat-pill-dark" id="stat-alerts-pill">+Live</span>
+            </div>
+            <div class="stat-main-num dark" id="stat-total-alerts">0</div>
+          </div>
+
+          <!-- Card 2: Protected / Monitored Domains -->
+          <div class="stat-card card-graphite">
+            <div class="stat-card-top">
+              <div class="stat-label-wrap">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>Protected Domains</span>
+              </div>
+              <span class="stat-pill-muted" id="stat-domains-pill">Verified</span>
+            </div>
+            <div class="stat-main-num" id="stat-protected-domains">0</div>
+          </div>
+
+          <!-- Card 3: Critical Threats -->
+          <div class="stat-card card-graphite">
+            <div class="stat-card-top">
+              <div class="stat-label-wrap">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>Critical Threats</span>
+              </div>
+              <span class="stat-pill-muted" id="stat-critical-pill">Shielded</span>
+            </div>
+            <div class="stat-main-num highlight-cyan" id="stat-critical-threats">0</div>
+          </div>
+
+          <!-- Card 4: Protection Status -->
+          <div class="stat-card card-graphite">
+            <div class="stat-card-top">
+              <div class="stat-label-wrap">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"/>
+                  <line x1="12" y1="20" x2="12" y2="4"/>
+                  <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                <span>Protection Status</span>
+              </div>
+              <span class="stat-pill-cyan" id="stat-status-pill">ONLINE</span>
+            </div>
+            <div class="stat-main-num text-sm" id="stat-protection-status">VERIFIED</div>
+          </div>
+        </div>
+
+        <!-- CURRENT TAB TARGET SECURITY ASSESSMENT (HUD) -->
+        <div class="graphite-card current-target-box">
+          <div class="target-card-header">
+            <div class="target-title-group">
+              <span class="section-title">CURRENT TAB EVALUATION</span>
+              <span class="protocol-chip" id="current-protocol-badge">DETECTING</span>
+            </div>
+            <div class="badges-row">
+              <span class="policy-pill hidden" id="policy-decision-badge">POL_MONITOR</span>
+              <span class="risk-pill UNKNOWN" id="current-risk-badge">AWAITING SCAN</span>
+            </div>
+          </div>
+
+          <div class="current-url-display-line">
+            <span class="current-url-text" id="current-url-text">Resolving active tab destination...</span>
+            <button class="btn-copy-chip" id="btn-copy-target" title="Copy Target URL">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Heuristic Risk Score Meter -->
+          <div class="target-meter-wrap">
+            <div class="target-meter-bg">
+              <div class="target-meter-fill" id="target-meter-fill" style="width: 0%;"></div>
+            </div>
+            <div class="meter-score-row">
+              <span class="meter-caption" id="meter-caption">Heuristic Zero-Trust Score</span>
+              <span class="meter-val" id="meter-score-val">0 / 100</span>
+            </div>
+          </div>
+
+          <!-- Detected Indicators & Findings List -->
+          <div class="indicators-drawer" id="indicators-drawer">
+            <span class="findings-lbl">Observed Detection Evidence:</span>
+            <ul class="findings-chips-list" id="findings-chips-list">
+              <li class="chip-finding safe">Awaiting evaluation...</li>
+            </ul>
+          </div>
+
+          <!-- Quick Test Presets Bar -->
+          <div class="presets-toolbar">
+            <span class="presets-lbl">Presets:</span>
+            <button class="preset-chip" data-url="http://192.168.1.1/admin/login">IP Host</button>
+            <button class="preset-chip" data-url="https://paypal.com@verify-auth.xyz/login">Phishing</button>
+            <button class="preset-chip" data-url="https://github.com/torvalds/linux">Safe Baseline</button>
+            <button class="preset-chip" data-url="https://unverified-demo-service.net/app">Unknown</button>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="target-actions-row">
+            <button class="btn-cyan-primary" id="btn-run-analysis">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <span>Analyze Current Page</span>
+            </button>
+            <button class="btn-dark-secondary" id="btn-check-vt" title="Check VirusTotal v3 Reputation">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span>VirusTotal Check</span>
+            </button>
+            <button class="btn-dark-secondary" id="btn-preview-warning" title="Test Warning Interstitial">
+              Preview Warning
+            </button>
+            <button class="btn-danger-block hidden" id="btn-block-threat-domain" title="Enforce Dynamic Rule Block">
+              Block Domain
+            </button>
+          </div>
+          <div class="block-confirm-note hidden" id="block-confirm-note"></div>
+
+          <!-- VIRUSTOTAL V3 REPUTATION INTELLIGENCE CARD -->
+          <div class="vt-reputation-card hidden" id="vt-reputation-card">
+            <div class="vt-header-row">
+              <div class="vt-title-wrap">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#00e5ff" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span class="vt-label">VirusTotal v3 Intelligence</span>
+              </div>
+              <span class="vt-verdict-pill UNKNOWN" id="vt-verdict-pill">UNKNOWN</span>
+            </div>
+            <div class="vt-stats-grid" id="vt-stats-grid">
+              <div class="vt-stat-pill">
+                <span class="vt-stat-label">Malicious</span>
+                <span class="vt-stat-number val-malicious" id="vt-stat-malicious">0</span>
+              </div>
+              <div class="vt-stat-pill">
+                <span class="vt-stat-label">Suspicious</span>
+                <span class="vt-stat-number val-suspicious" id="vt-stat-suspicious">0</span>
+              </div>
+              <div class="vt-stat-pill">
+                <span class="vt-stat-label">Harmless</span>
+                <span class="vt-stat-number val-harmless" id="vt-stat-harmless">0</span>
+              </div>
+              <div class="vt-stat-pill">
+                <span class="vt-stat-label">Undetected</span>
+                <span class="vt-stat-number" id="vt-stat-undetected">0</span>
+              </div>
+            </div>
+            <div class="vt-note" id="vt-status-note">Awaiting VirusTotal query...</div>
+          </div>
+        </div>
+
+        <!-- GEMMA 4 AI INVESTIGATION PANEL (Honest Real-AI Integration) -->
+        <div class="graphite-card gemma-ai-card">
+          <div class="card-header-row">
+            <div class="header-text-group">
+              <div class="title-eyebrow">
+                <span class="sec-idx">AI</span>
+                <span class="section-title">Gemma 4 Threat Investigation</span>
+              </div>
+              <span class="section-sub">High-assurance autonomous inference & uncertainty telemetry</span>
+            </div>
+            <div class="ai-header-controls">
+              <button class="btn-ai-investigate" id="btn-trigger-ai" title="Dispatch Target Evidence to Gemma 4 Gateway">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>Investigate</span>
+              </button>
+              <span class="ai-status-pill offline" id="ai-status-pill">OFFLINE MODE</span>
+            </div>
+          </div>
+
+          <!-- Content rendered strictly from real background AI response or honest offline state -->
+          <div class="ai-content-box" id="ai-content-box">
+            <div class="ai-offline-notice">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#00e5ff" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <div class="ai-notice-text">
+                <strong>Autonomous Local Defense Active:</strong>
+                <span>Gemma 4 local LLM is offline or not configured. All zero-trust heuristics, deterministic policy enforcement, and DeclarativeNetRequest packet containment operate 100% locally with zero external network dependency.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IN-PAGE LINK & NAVIGATION RADAR (Feature 6: Comprehensive Page Link Assessment) -->
+        <div class="graphite-card link-radar-card" id="link-radar-card">
+          <div class="card-header-row">
+            <div class="header-text-group">
+              <div class="title-eyebrow">
+                <span class="sec-idx">LNK</span>
+                <span class="section-title">In-Page Link & Navigation Radar</span>
+              </div>
+              <span class="section-sub">Autonomous inspection of hyperlinks, hidden menus, forms & subframes</span>
+            </div>
+            <div class="link-radar-actions">
+              <button class="btn-rescan-links" id="btn-rescan-links" title="Rescan Hyperlinks, Forms and Navigation Destinations">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Rescan Links</span>
+              </button>
+              <span class="radar-scan-pill" id="radar-status-pill">IDLE</span>
+            </div>
+          </div>
+
+          <!-- Radar Mini Telemetry HUD (6 metric counters) -->
+          <div class="radar-metrics-grid">
+            <div class="radar-metric-box">
+              <span class="radar-metric-num" id="radar-total-discovered">0</span>
+              <span class="radar-metric-lbl">Found</span>
+            </div>
+            <div class="radar-metric-box">
+              <span class="radar-metric-num cyan" id="radar-total-inspected">0</span>
+              <span class="radar-metric-lbl">Inspected</span>
+            </div>
+            <div class="radar-metric-box">
+              <span class="radar-metric-num red" id="radar-high-risk-count">0</span>
+              <span class="radar-metric-lbl">High-Risk</span>
+            </div>
+            <div class="radar-metric-box">
+              <span class="radar-metric-num amber" id="radar-suspicious-count">0</span>
+              <span class="radar-metric-lbl">Suspicious</span>
+            </div>
+            <div class="radar-metric-box">
+              <span class="radar-metric-num cyan-light" id="radar-unknown-count">0</span>
+              <span class="radar-metric-lbl">Unknown</span>
+            </div>
+            <div class="radar-metric-box">
+              <span class="radar-metric-num muted" id="radar-skipped-count">0</span>
+              <span class="radar-metric-lbl">Skipped</span>
+            </div>
+          </div>
+
+          <!-- Scan Progress / Time Bar -->
+          <div class="radar-meta-row">
+            <span class="radar-time-tag" id="radar-scan-time">Not scanned yet</span>
+            <span class="radar-origin-tag" id="radar-target-page" title="Active Tab Origin">Awaiting tab...</span>
+          </div>
+
+          <!-- Selectable Findings List -->
+          <div class="radar-findings-container">
+            <div class="radar-list-header">
+              <span>Discovered Destinations & Evidence</span>
+              <span class="radar-filter-badge" id="radar-filter-badge">All Targets</span>
+            </div>
+            <div class="radar-destinations-scroll" id="radar-destinations-scroll">
+              <div class="radar-empty-notice" id="radar-empty-notice">
+                <span>Click "Rescan Links" or navigate to an active website to inspect page hyperlinks, forms, and hidden menus.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skipped / Non-Web Destinations Explanatory Box (Collapsible) -->
+          <details class="radar-skipped-details" id="radar-skipped-details">
+            <summary class="radar-skipped-summary">
+              <span>Non-Inspected Protocol & Frame Disclosures (<span id="radar-skipped-counter">0</span>)</span>
+            </summary>
+            <div class="radar-skipped-content" id="radar-skipped-content">
+              <div class="skipped-empty">No non-web protocols or isolated frames detected.</div>
+            </div>
+          </details>
+        </div>
+
+        <!-- INCIDENT TIMELINE SECTION (Inspired by Reference Screenshot) -->
+        <div class="graphite-card timeline-section-card">
+          <div class="card-header-row">
+            <div class="header-text-group">
+              <div class="title-eyebrow">
+                <span class="sec-idx">SOC</span>
+                <span class="section-title">Incident Timeline — EDITH AI Trail</span>
+              </div>
+              <span class="section-sub">Autonomous threat mitigations and integrity checkpoints</span>
+            </div>
+            <button class="dots-btn" id="btn-clear-timeline" title="Clear Event Logs">•••</button>
+          </div>
+
+          <!-- Horizontal Timeline Chain matching reference -->
+          <div class="timeline-chain-scroll">
+            <div class="timeline-chain-track" id="timeline-chain-track">
+              <!-- Dynamically populated from real EventStore -->
+              <div class="timeline-empty-msg">
+                <span class="empty-dot"></span>
+                <span>No security incidents recorded yet. Open a website or select a preset to log events.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-COL BOTTOM WIDGETS: ACTIVITY GRAPH & SEVERITY -->
+        <div class="bottom-widgets-grid">
+
+          <!-- Widget A: Security Activity Line Chart -->
+          <div class="graphite-card chart-card">
+            <div class="chart-header-row">
+              <div class="title-eyebrow">
+                <span class="sec-idx">ACT</span>
+                <span class="section-title">Security Activity</span>
+              </div>
+              <span class="chart-pill-cyan">Verified</span>
+            </div>
+
+            <div class="svg-chart-container">
+              <svg viewBox="0 0 280 90" class="activity-svg" id="activity-svg">
+                <!-- Grid lines -->
+                <line x1="10" y1="20" x2="270" y2="20" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+                <line x1="10" y1="50" x2="270" y2="50" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+                <line x1="10" y1="80" x2="270" y2="80" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+                <!-- Neutral baseline line -->
+                <path d="M10 70 Q 70 75, 140 65 T 270 70" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" id="svg-subline"/>
+                <!-- Electric cyan dynamic activity line -->
+                <path d="M10 70 Q 70 50, 140 25 T 270 65" fill="none" stroke="#00e5ff" stroke-width="2" id="svg-mainline"/>
+                <!-- Vertex Points -->
+                <circle cx="140" cy="25" r="4" fill="#00e5ff" stroke="#080d18" stroke-width="2" id="svg-peak-point"/>
+                <circle cx="210" cy="50" r="3" fill="#00e5ff"/>
+              </svg>
+              <!-- Floating Tooltip Pill -->
+              <div class="svg-tooltip-pill" id="svg-tooltip-pill">
+                <span>Threat Baseline Active</span>
+              </div>
+            </div>
+
+            <div class="chart-x-axis">
+              <span>08:00</span>
+              <span>12:00</span>
+              <span>16:00</span>
+              <span>20:00</span>
+              <span>Now</span>
+            </div>
+          </div>
+
+          <!-- Widget B: Threat Severity Cluster -->
+          <div class="graphite-card severity-card">
+            <div class="chart-header-row">
+              <div class="title-eyebrow">
+                <span class="sec-idx">SEV</span>
+                <span class="section-title">Current Severity</span>
+              </div>
+              <span class="severity-stat-pill" id="severity-stat-pill">100% Zero-Trust</span>
+            </div>
+
+            <div class="severity-vis-row">
+              <!-- Vertical severity bars -->
+              <div class="vertical-bars-group">
+                <div class="bar-col">
+                  <div class="bar-fill" style="height: 35%;"></div>
+                  <span class="bar-lbl">Crit</span>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height: 50%;"></div>
+                  <span class="bar-lbl">High</span>
+                </div>
+                <div class="bar-col active-cyan">
+                  <span class="bar-badge-pill" id="bar-cyan-badge">Peak</span>
+                  <div class="bar-fill cyan-fill" id="bar-cyan-fill" style="height: 75%;"></div>
+                  <span class="bar-lbl cyan-text">Med</span>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height: 40%;"></div>
+                  <span class="bar-lbl">Low</span>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height: 60%;"></div>
+                  <span class="bar-lbl">Safe</span>
+                </div>
+              </div>
+
+              <!-- Segmented Cluster Widget -->
+              <div class="cluster-grid">
+                <div class="cluster-cell" id="cell-critical">
+                  <span class="cluster-pct" id="pct-critical">0</span>
+                  <span class="cluster-lbl">Critical</span>
+                </div>
+                <div class="cluster-cell" id="cell-high">
+                  <span class="cluster-pct" id="pct-high">0</span>
+                  <span class="cluster-lbl">High</span>
+                </div>
+                <div class="cluster-cell active-cyan" id="cell-unknown">
+                  <span class="cluster-pct" id="pct-unknown">0</span>
+                  <span class="cluster-lbl">Unknown</span>
+                </div>
+                <div class="cluster-cell" id="cell-safe">
+                  <span class="cluster-pct" id="pct-safe">0</span>
+                  <span class="cluster-lbl">Safe</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- TAB 2: INCIDENT TIMELINE DETAIL PANEL -->
+      <section class="tab-content-panel" id="tab-timeline">
+        <div class="graphite-card">
+          <div class="card-header-row">
+            <div class="title-eyebrow">
+              <span class="sec-idx">HIST</span>
+              <span class="section-title">Historical Security Events</span>
+            </div>
+            <button class="btn-dark-secondary btn-xs" id="btn-wipe-logs">Wipe Records</button>
+          </div>
+          <div class="events-vertical-list" id="events-vertical-list">
+            <div class="empty-list-notice">No stored security events found.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: CONTROLS & SELF-HEALING PANEL -->
+      <section class="tab-content-panel" id="tab-controls">
+        <div class="graphite-card controls-card">
+          <div class="title-eyebrow">
+            <span class="sec-idx">DEF</span>
+            <span class="section-title">Quick Protection Controls</span>
+          </div>
+          <div class="controls-list">
+            
+            <div class="control-row">
+              <div class="control-text">
+                <span class="control-name">Autonomous Zero-Trust Shield</span>
+                <span class="control-desc">Evaluates target URIs against lexical and structural threat baselines.</span>
+              </div>
+              <label class="cyan-toggle-switch">
+                <input type="checkbox" id="toggle-shield" checked>
+                <span class="cyan-slider round"></span>
+              </label>
+            </div>
+
+            <div class="control-row">
+              <div class="control-text">
+                <span class="control-name">Declarative Threat Dropper</span>
+                <span class="control-desc">Direct packet containment via Chrome declarativeNetRequest dynamic rules.</span>
+              </div>
+              <label class="cyan-toggle-switch">
+                <input type="checkbox" id="toggle-dnr" checked>
+                <span class="cyan-slider round"></span>
+              </label>
+            </div>
+
+            <div class="control-row">
+              <div class="control-text">
+                <span class="control-name">Punycode & Homoglyph Hook</span>
+                <span class="control-desc">Intercepts IDN spoofing and visual ASCII lookalike substitutions.</span>
+              </div>
+              <label class="cyan-toggle-switch">
+                <input type="checkbox" id="toggle-homoglyph" checked>
+                <span class="cyan-slider round"></span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Self-Healing Integrity Card -->
+        <div class="graphite-card self-healing-card">
+          <div class="card-header-row">
+            <div class="header-text-group">
+              <div class="title-eyebrow">
+                <span class="sec-idx">HEAL</span>
+                <span class="section-title">Self-Healing Integrity Center</span>
+              </div>
+              <span class="section-sub">Autonomous reconciliation for protection rules & storage mirrors</span>
+            </div>
+            <span class="status-pill-cyan" id="integrity-status-pill">HEALTHY</span>
+          </div>
+
+          <div class="integrity-specs-grid">
+            <div class="spec-item">
+              <span class="spec-k">RULE SUBSYSTEM:</span>
+              <span class="spec-v highlight-cyan" id="spec-subsystem">declarativeNetRequest Active</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-k">ACTIVE RULES:</span>
+              <span class="spec-v" id="spec-rules-count">0 Enforced</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-k">LAST INTEGRITY CHECK:</span>
+              <span class="spec-v" id="spec-last-check">Verified Online</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-k">REPAIR RESULT:</span>
+              <span class="spec-v text-green" id="spec-repair-result">Checksums Reconciled</span>
+            </div>
+          </div>
+
+          <div class="integrity-actions-row">
+            <button class="btn-cyan-primary" id="btn-run-integrity">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+              <span>Run Integrity Diagnostic</span>
+            </button>
+            <button class="btn-dark-secondary" id="btn-repair-rules">
+              <span>Restore & Verify Rules</span>
+            </button>
+          </div>
+          <div class="integrity-feedback-msg hidden" id="integrity-feedback"></div>
+        </div>
+      </section>
+
+      <!-- TAB 4: ANALYTICS PANEL -->
+      <section class="tab-content-panel" id="tab-analytics">
+        <div class="graphite-card">
+          <div class="title-eyebrow">
+            <span class="sec-idx">TEL</span>
+            <span class="section-title">Security Telemetry Distribution</span>
+          </div>
+          <div class="analytics-breakdown-table">
+            <div class="analytic-row">
+              <span>Total URLs Evaluated:</span>
+              <strong id="analytics-total">0</strong>
+            </div>
+            <div class="analytic-row">
+              <span>High Risk / Flagged Threats:</span>
+              <strong class="highlight-red" id="analytics-high">0</strong>
+            </div>
+            <div class="analytic-row">
+              <span>Suspicious Targets:</span>
+              <strong class="highlight-amber" id="analytics-suspicious">0</strong>
+            </div>
+            <div class="analytic-row">
+              <span>Zero-Trust Unknown Assessments:</span>
+              <strong class="highlight-cyan" id="analytics-unknown">0</strong>
+            </div>
+            <div class="analytic-row">
+              <span>Verified Safe Baselines:</span>
+              <strong class="highlight-green" id="analytics-safe">0</strong>
+            </div>
+            <div class="analytic-row">
+              <span>Dynamic NetRules Enforced:</span>
+              <strong class="highlight-cyan" id="analytics-blocked">0</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER COMPLIANCE NOTE -->
+      <footer class="panel-footer">
+        <span>EDITH AI • Zero-Trust Client Defense • 100% Client-Side Privacy</span>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- DESTRUCTIVE ACTION CONFIRMATION MODAL -->
+  <div class="cyber-modal-overlay hidden" id="clear-confirm-modal">
+    <div class="cyber-modal-box">
+      <div class="modal-top">
+        <span class="modal-caution-icon">⚠️</span>
+        <h3 class="modal-heading">Clear Security History?</h3>
+      </div>
+      <p class="modal-text">This will permanently wipe all local threat analysis events, timeline milestones, and telemetry records from your browser storage.</p>
+      <div class="modal-actions-row">
+        <button class="btn-dark-secondary" id="btn-modal-cancel">Cancel</button>
+        <button class="btn-danger-confirm" id="btn-modal-confirm">Confirm Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZERO-TRUST ARCHITECTURE HELP MODAL -->
+  <div class="cyber-modal-overlay hidden" id="help-info-modal">
+    <div class="cyber-modal-box">
+      <div class="modal-top">
+        <span class="modal-caution-icon">🛡️</span>
+        <h3 class="modal-heading">EDITH AI Defense Architecture</h3>
+      </div>
+      <p class="modal-text">
+        <strong>Pipeline:</strong> DETECT → INVESTIGATE → DECIDE → PROTECT → REPAIR → VERIFY → RECORD<br><br>
+        • <strong>Zero-Trust Engine:</strong> Never labels unverified domains safe by default.<br>
+        • <strong>DeclarativeNetRequest:</strong> Real packet containment enforced at browser engine level.<br>
+        • <strong>Self-Healing:</strong> Reconciles and verifies protection rules against baseline checksums.<br>
+        • <strong>Privacy:</strong> Credentials and sensitive tokens are strictly stripped and never stored.
+      </p>
+      <div class="modal-actions-row">
+        <button class="btn-cyan-primary" id="btn-modal-help-close">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../storage/event-store.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

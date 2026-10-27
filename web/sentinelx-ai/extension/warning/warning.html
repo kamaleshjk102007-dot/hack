@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDITH AI - Security Interstitial Warning</title>
+  <link rel="stylesheet" href="warning.css">
+</head>
+<body>
+  <div class="warning-container">
+    <!-- Header Logo -->
+    <header class="warning-header">
+      <div class="brand">
+        <div class="brand-shield">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <span class="brand-name">EDITH <strong>AI</strong> <span class="shield-tag">SHIELD</span></span>
+      </div>
+      <div class="event-stamp" id="event-timestamp">INCIDENT TIMESTAMP: --</div>
+    </header>
+
+    <!-- Main Threat Card -->
+    <main class="threat-card">
+      <div class="radar-box">
+        <div class="radar-circle circle-1"></div>
+        <div class="radar-circle circle-2"></div>
+        <div class="radar-circle circle-3"></div>
+        <div class="warning-icon-center">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="threat-title" id="threat-title">Potential Threat Intercepted</h1>
+      <p class="threat-subtitle" id="threat-subtitle">
+        EDITH AI Zero-Trust Engine identified structural security anomalies associated with this destination.
+      </p>
+
+      <!-- Destination Target Box -->
+      <div class="target-box">
+        <div class="target-meta">
+          <span class="target-lbl">SUSPECT TARGET:</span>
+          <span class="threat-level-badge" id="warning-risk-badge">HIGH RISK</span>
+        </div>
+        <div class="target-url-line" id="warning-target-url">https://suspicious-target.example</div>
+      </div>
+
+      <!-- Zero-Trust Score Readout -->
+      <div class="score-row">
+        <div class="score-figure">
+          <span class="score-big" id="warning-score-big">--</span>
+          <span class="score-unit">/ 100</span>
+        </div>
+        <div class="score-track-wrap">
+          <span class="score-caption">Zero-Trust Heuristic Threat Score</span>
+          <div class="score-track">
+            <div class="score-fill" id="warning-score-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verdict Banner -->
+      <div class="verdict-box" id="warning-verdict-box">
+        <div class="verdict-icon">⚠️</div>
+        <div class="verdict-text" id="warning-verdict-text">
+          Host exhibits heuristic patterns indicative of phishing, deceptive branding, or unencrypted data transit.
+        </div>
+      </div>
+
+      <!-- Threat Indicators Summary -->
+      <div class="threat-indicators" id="threat-indicators-section">
+        <h2 class="section-title">DETECTION FACTORS:</h2>
+        <ul class="indicators-list" id="warning-indicators-list">
+          <!-- Filled dynamically -->
+        </ul>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons-grid">
+        <button class="btn-safety" id="btn-back-safety">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Return to Safety (Recommended)
+        </button>
+
+        <button class="btn-advanced" id="btn-toggle-advanced">
+          Technical Details
+        </button>
+      </div>
+
+      <!-- Technical Drawer -->
+      <div class="technical-drawer hidden" id="technical-drawer">
+        <div class="drawer-header">Technical Analysis Metadata</div>
+        <div class="tech-spec-grid">
+          <div class="spec-row">
+            <span class="spec-key">Calculated Threat Score:</span>
+            <span class="spec-val" id="spec-score">-- / 100</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Classification Model:</span>
+            <span class="spec-val">EDITH AI Zero-Trust Heuristic Engine</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Storage Event Reference:</span>
+            <span class="spec-val" id="spec-event-id">SEC_LOCAL_STORE</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Enforcement Mechanism:</span>
+            <span class="spec-val">Chrome declarativeNetRequest / Interstitial Warning</span>
+          </div>
+        </div>
+
+        <div class="bypass-zone">
+          <p class="bypass-warning">
+            ⚠️ <strong>Warning:</strong> Bypassing this warning may expose your device to credential theft, malware payloads, or session tampering.
+          </p>
+          <button class="btn-bypass" id="btn-proceed-unsafe">
+            Proceed to Unsafe Destination Anyway
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Disclaimers -->
+    <footer class="warning-footer">
+      <p>EDITH AI Zero-Trust Protection • Realtime Threat Interceptor</p>
+      <p class="privacy-tag">Privacy Guard: EDITH AI does not inspect passwords, cookies, or personal authentication data.</p>
+    </footer>
+  </div>
+
+  <script src="../storage/event-store.js"></script>
+  <script src="warning.js"></script>
+</body>
+</html>

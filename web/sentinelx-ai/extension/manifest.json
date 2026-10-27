@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "EDITH AI — SentinelX Autonomous Cyber Defense",
+  "version": "1.0.0",
+  "description": "Autonomous AI browser cybersecurity, zero-trust link and navigation defense, and verified self-healing powered by Google Gemma 4.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:8787/*",
+    "http://localhost:8787/*",
+    "http://127.0.0.1:5000/*",
+    "http://localhost:5000/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "EDITH AI — Autonomous Cyber Defense"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/link-scanner.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "warning/warning.html",
+        "warning/warning.css",
+        "warning/warning.js",
+        "storage/event-store.js",
+        "content/link-scanner.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
