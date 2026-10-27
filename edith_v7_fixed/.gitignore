@@ -1,0 +1,37 @@
+# Environment and Secrets
+.env
+*.env
+security/pattern_lock.json
+security/pattern_lock.tmp
+security/denied_attempts/
+
+# Logs and Audit Files
+*.log
+edith.log*
+verification_audit.jsonl*
+PyWhatKit_DB.txt
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# User data and generated files
+hud/static/generated/
+memory.json
+models/face_recognition/
+*.pth
+*.pkl
+*.docx
+*.xlsx
+*.pdf
+
+# Virtual Environments & IDE
+venv/
+.venv/
+env/
+.env.local
+.vscode/
+.idea/
