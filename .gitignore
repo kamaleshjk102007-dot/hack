@@ -1,0 +1,37 @@
+# Local credentials
+**/.env
+**/.env.*
+!**/.env.example
+
+# Git metadata and nested checkout metadata
+edith_v7_fixed/.git/
+
+# Installed dependencies and generated caches
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/.vite/
+**/venv/
+**/.venv/
+**/env/
+**/hud/static/generated/
+
+# Logs, local runtime data, and audit records
+*.log
+**/verification_audit.jsonl*
+**/memory.json
+**/PyWhatKit_DB.txt
+**/security/pattern_lock.json
+**/security/denied_attempts/
+web/.freebuff/
+web/sentinelx-ai/backend/security_events.json
+
+# Local model weights and generated artifacts
+**/models/face_recognition/
+**/*.pth
+**/*.pkl
+
+# Authentication preview images can reveal local lock patterns
+**/pattern-lock-preview.png
+**/profile-pattern-option.png
+**/unlock-choice-preview.png
